@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styleLogin.css" />
+
+    <script src="login.js"></script>
+    <script src="main.js"></script>
+
+    <title>login</title>
+  </head>
+  <header>managment tools</header>
+  <body>
+    <div id="con" class="center">
+      <h1>login</h1>
+      <div class="txt_field">
+        <input id="userName" type="text" required />
+        <span></span>
+        <label for="">User name</label>
+      </div>
+      <div id="passwordDiv" class="txt_field">
+        <input id="password" type="password" required />
+        <span></span>
+        <label for="">password</label>
+      </div>
+      <div class="button">
+        <input type="button" value="login" onclick="logIn()" />
+      </div>
+    </div>
+  </body>
+</html>

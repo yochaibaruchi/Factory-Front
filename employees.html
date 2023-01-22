@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      if (sessionStorage.getItem("userName") == null) {
+        location.href = "loginPage.html";
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./main.js"></script>
+    <script src="employees.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>employees</title>
+  </head>
+  <body onload="getUserName(),empsTable()">
+    <nav
+      style="border-bottom: 1px solid silver"
+      class="navbar navbar-expand-lg bg-light"
+    >
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="home.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="employees.html">employees</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="departments.html">departments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="shifts.html">shifts</a>
+            </li>
+          </ul>
+        </div>
+        <div class="d-flex align-items-center">
+          <span id="user" class="navbar-text"> </span> &nbsp;
+          <button
+            onclick=" logout()"
+            type="button"
+            class="btn btn-outline-secondary"
+          >
+            logout
+          </button>
+        </div>
+      </div>
+    </nav>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <span class="navbar-text"
+          >employees
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            add employee
+          </button></span
+        >
+        <div class="d-flex align-items-center">
+          <input
+            id="search"
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button
+            onclick="search()"
+            type="button"
+            class="btn btn-outline-secondary"
+          >
+            search
+          </button>
+        </div>
+      </div>
+    </nav>
+    <br />
+    <table id="emps" class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col">started the work</th>
+          <th scope="col">department</th>
+          <th scope="col">shifts</th>
+          <th scope="col">options</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label"
+                >employee:</label
+              >
+              <div id="employeeDiv"></div>
+              <div id="empId" style="display: none"></div>
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">shifts:</label>
+              <select
+                class="form-select"
+                id="selectShifts"
+                aria-label="Default select example"
+              >
+                <option disabled selected>select shift</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button onclick=" addShift()" type="button" class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">add shift</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label"
+                >employee:</label
+              >
+              <div id="employeeDiv"></div>
+              <div id="empId" style="display: none"></div>
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">shifts:</label>
+              <select
+                class="form-select"
+                id="selectShifts"
+                aria-label="Default select example"
+              >
+                <option selected>select shift</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button onclick=" addShift()" type="button" class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              add employee info
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label for="recipient-name" class="col-form-label"
+              >first name:</label
+            >
+            <input type="text" class="form-control" id="firstName" />
+            <label for="recipient-name" class="col-form-label"
+              >Last name:</label
+            >
+            <input type="text" class="form-control" id="lasttName" />
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label"
+                >departments:</label
+              >
+              <select
+                class="form-select"
+                id="selectDepartment"
+                aria-label="Default select example"
+              >
+                <option value="300000" disabled selected>
+                  select department
+                </option>
+              </select>
+            </div>
+            <br />
+            <label for="party">started working:</label>
+            <input
+              id="time"
+              type="datetime-local"
+              name="partydate"
+              value="2022-06-01T00:00"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" onclick="addEmp()" class="btn btn-primary">
+              comform
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
